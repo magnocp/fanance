@@ -1,11 +1,21 @@
+let modal = document.querySelector('.modal-overlay')
+
 const Modal = {
   open() {
-    document.querySelector('.modal-overlay').classList.add('active')
+    modal.classList.add('active')
   },
   close() {
-    document.querySelector('.modal-overlay').classList.remove('active')
+    modal.classList.remove('active')
+    Form.clearFields()
+  },
+  handleClickOutside(event) {
+    if (event.target == this) {
+      modal.classList.remove('active')
+    }
   }
 }
+
+modal.addEventListener('click', Modal.handleClickOutside)
 
 const Storage = {
   get() {
@@ -184,7 +194,6 @@ const Form = {
       const transaction = Form.formatValues()
       Transaction.add(transaction)
 
-      Form.clearFields()
       Modal.close()
     } catch (error) {
       alert(error.message)
